@@ -25,7 +25,7 @@ AFND* AFNDTransforma(AFND* afnd){
 	AFND* afd;
 	int tipo_estado = INICIAL;
 	int posicion_inicio, estado_AFND, i, h, num_transis, num_intermedios, tam, num_estado, num_transis_existentes;
-	int * configuracion_inicio, *conf_destino;
+	int * configuracion_inicio, *conf_destino, *configuracion_estado_inicial;
 	char nombre_inicio[MAX_NOMBRE];
 	char estado_destino[MAX_NOMBRE] = "";
 	char estado_destino_existente[MAX_NOMBRE];
@@ -42,7 +42,7 @@ AFND* AFNDTransforma(AFND* afnd){
 
 
 
-	configuracion_inicio = inicializar_configuracion(num_total_estados, posicion_inicio);
+	configuracion_estado_inicial = inicializar_configuracion(num_total_estados, posicion_inicio);
 	
 
 	
@@ -56,7 +56,7 @@ AFND* AFNDTransforma(AFND* afnd){
 		if (AFNDCierreLTransicionIJ(afnd, posicion_inicio, estado_AFND) && (posicion_inicio != estado_AFND)) {
 
 			strcat(nombre_inicio, AFNDNombreEstadoEn(afnd, estado_AFND));
-			configuracion_inicio[estado_AFND] = 1;
+			configuracion_estado_inicial[estado_AFND] = 1;
 
 			tipo_estado = nuevo_tipo_estado(afnd, estado_AFND, tipo_estado);
 		}	
@@ -67,12 +67,12 @@ AFND* AFNDTransforma(AFND* afnd){
 	//Reservamos memoria para el estado intermedio y lo creamos
 	estados_intermedios = (EstadoIntermedio**) malloc(sizeof(EstadoIntermedio*));
 
-	estados_intermedios[num_intermedios] = crear_estado(nombre_inicio, num_total_estados, tipo_estado, configuracion_inicio);
+	estados_intermedios[num_intermedios] = crear_estado(nombre_inicio, num_total_estados, tipo_estado, configuracion_estado_inicial);
 	num_intermedios ++;
 
 	//Añadimos las transiciones para el primer estado intermedio
 	for(i=0; i < num_total_estados; i++){
-		if( configuracion_inicio[i] == 1){
+		if( configuracion_estado_inicial[i] == 1){
 			
 			for(int simbolo=0; simbolo < num_total_simbolos; simbolo++){
 
@@ -132,7 +132,7 @@ AFND* AFNDTransforma(AFND* afnd){
 			tam = sizeof(estados_intermedios);
 			//Comprobamos si el estado ya existe
 			for(i=0; i < num_intermedios; i++){
-				if(comparar_config(configuracion_inicio,get_configuracion_estado(estados_intermedios[i]), num_intermedios) == 0) break;
+				if(comparar_config(configuracion_inicio,get_configuracion_estado(estados_intermedios[i]), num_total_estados) == 0) break;
 			}
 
 			//Si no existe lo creamos
@@ -217,7 +217,13 @@ AFND* AFNDTransforma(AFND* afnd){
 					if(h == num_transis_existentes){
 						set_transicion(estados_intermedios[num_estado], num_transis_existentes, crear(num_total_estados, AFNDSimboloEn(afnd, simbolo), estado_destino, conf_destino));
 					}
+					else
+					{
+						free(conf_destino);
+					}
 					strcpy(estado_destino,"");
+					
+					
 					
 				}
 			}
@@ -265,7 +271,7 @@ AFND* AFNDTransforma(AFND* afnd){
 	}
 
 	free(estados_intermedios);
-	free(conf_destino);
+	free(configuracion_estado_inicial);
 	
 	return afd;
 }

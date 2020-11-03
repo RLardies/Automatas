@@ -104,6 +104,7 @@ void eliminar_transicion(Transicion *trans) {
 		return;
 	}
     
+	free(trans->config_estado_destino);
 	free(trans);
 }
 
@@ -221,6 +222,7 @@ void eliminar_estado(EstadoIntermedio *estado) {
 		eliminar_transicion(estado->transiciones[i]);
 
 	}
+
 	free(estado->transiciones);
 	free(estado);
 }
