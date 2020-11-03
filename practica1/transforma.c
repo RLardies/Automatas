@@ -1,8 +1,25 @@
 #include "transforma.h"
 
-int *inicializar_configuracion(int num_total_estados, int posicion_inicio);
 int nuevo_tipo_estado(AFND *afnd, int pos, int anterior);
-void anadir_configuracion(int * conf, int num_total_estados, int posicion);
+
+int comparar_config(int *config1, int *config2, int num_estados){
+  int i;
+
+  /* Comprobamos los argumentos de entrada */
+  if(!config1 || !config2){
+    return -1;
+  }
+
+  /* Pasamos a comparar las codificaciones. En cuanto una posicion ya no sea igual indicaremos que son diferentes */
+  for (i=0; i<num_estados; i++){
+    if(config1[i] != config2[i]){
+      return 1;
+    }
+  }
+
+  /* si recorremos toda la lista y no hay diferencias, son iguales */
+  return 0;
+}
 
 AFND* AFNDTransforma(AFND* afnd){
 	AFND* afd;
@@ -95,6 +112,8 @@ AFND* AFNDTransforma(AFND* afnd){
 
 		num_transis = get_transiciones_guardadas(estados_intermedios[j]);
 
+
+
 		//Para cada transición del estado intermedio explorado haremos un estado nuevo si es necesario
 		for(int k=0; k < num_transis; k++){
 
@@ -113,7 +132,7 @@ AFND* AFNDTransforma(AFND* afnd){
 			tam = sizeof(estados_intermedios);
 			//Comprobamos si el estado ya existe
 			for(i=0; i < num_intermedios; i++){
-				if(strcmp(nombre_inicio,get_nombre_estado(estados_intermedios[i])) == 0) break;
+				if(comparar_config(configuracion_inicio,get_configuracion_estado(estados_intermedios[i]), num_intermedios) == 0) break;
 			}
 
 			//Si no existe lo creamos
@@ -188,7 +207,7 @@ AFND* AFNDTransforma(AFND* afnd){
 
 						strcpy(estado_destino_existente, get_destino(get_transicion(estados_intermedios[num_estado], h)));							
 						
-						if(strcmp(estado_destino, estado_destino_existente) == 0 ||
+						if(strcmp(estado_destino, estado_destino_existente) == 0 &&
 						strcmp(AFNDSimboloEn(afnd, simbolo) , get_operador(get_transicion(estados_intermedios[num_estado], h)))== 0) break;
 						
 					}
@@ -246,40 +265,11 @@ AFND* AFNDTransforma(AFND* afnd){
 	}
 
 	free(estados_intermedios);
+	free(conf_destino);
 	
 	return afd;
 }
 
-
-int *inicializar_configuracion(int num_total_estados, int posicion_inicio){
-
-	int * configuracion_inicio;
-
-	configuracion_inicio = (int*) malloc (num_total_estados*sizeof(int));
-
-	if (!configuracion_inicio) {
-		return NULL;
-	}
-
-	for (int i=0; i < num_total_estados; i++) {
-		if (i == posicion_inicio)
-			configuracion_inicio[i] = 1;
-
-		else
-			configuracion_inicio[i] = 0;
-	}
-
-	return configuracion_inicio;
-}
-
-void anadir_configuracion(int * conf, int num_total_estados, int posicion){
-
-	for (int i=0; i < num_total_estados; i++) {
-		if (i == posicion) conf[i] = 1;
-	}
-
-	return;
-}
 
 int nuevo_tipo_estado(AFND *afnd, int pos, int anterior) {
 	if (anterior == INICIAL) {

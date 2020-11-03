@@ -33,11 +33,7 @@ Transicion *crear(int estado_posibles, char *operador, char *destino, int *estad
 	strcpy(trans->destino, destino);
 
 	//Reservamos memoria para la configuracion que tendra el estado al que se transita
-	trans->config_estado_destino = (int *)malloc(estado_posibles*sizeof(int));
-	if (trans->config_estado_destino == NULL){
-		printf("Error creando el estado de destino");
-		return NULL;
-	}
+	trans->config_estado_destino = estado_final;
 
 	for (int i=0; i < estado_posibles; i++) {
 		trans->config_estado_destino[i] = estado_final[i]; //estado_final será un array de estados si hay + de 1
@@ -72,13 +68,42 @@ int * get_configuracion(Transicion *trans){
 
 }
 
+int *inicializar_configuracion(int num_total_estados, int posicion_inicio){
+
+	int * configuracion_inicio;
+
+	configuracion_inicio = (int*) malloc (num_total_estados*sizeof(int));
+
+	if (!configuracion_inicio) {
+		return NULL;
+	}
+
+	for (int i=0; i < num_total_estados; i++) {
+		if (i == posicion_inicio)
+			configuracion_inicio[i] = 1;
+
+		else
+			configuracion_inicio[i] = 0;
+	}
+
+	return configuracion_inicio;
+}
+
+void anadir_configuracion(int * conf, int num_total_estados, int posicion){
+
+	for (int i=0; i < num_total_estados; i++) {
+		if (i == posicion) conf[i] = 1;
+	}
+
+	return;
+}
+
 void eliminar_transicion(Transicion *trans) {
 	if(!trans) {
 		printf("No se pudo eliminar, argumento de entrada no válido");
 		return;
 	}
-
-	free(trans->config_estado_destino);
+    
 	free(trans);
 }
 
@@ -102,7 +127,7 @@ EstadoIntermedio *crear_estado(char nombre[MAX_NOMBRE], int estado_posibles, int
 	estado->transiciones = (Transicion**)malloc(sizeof(Transicion*) * MAX);
 
 	//Reservamos memoria para la configuracion del estado nuevo
-	estado->config_estado = (int *)malloc(estado_posibles*sizeof(int));
+	estado->config_estado = estados;
 
 	for (int i = 0; i < estado_posibles; i++) {
 		estado->config_estado[i] = estados[i];
@@ -194,9 +219,9 @@ void eliminar_estado(EstadoIntermedio *estado) {
 
 	for (int i= 0; i < estado->transiciones_guardadas; i++) {
 		eliminar_transicion(estado->transiciones[i]);
-	}
 
-	free(estado->config_estado);
+	}
+	free(estado->transiciones);
 	free(estado);
 }
 

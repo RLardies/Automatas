@@ -18,6 +18,7 @@ Transicion *crear(int estado_posibles, char *operador, char *destino, int *estad
 char *get_destino(Transicion *trans);
 char *get_operador(Transicion *trans);
 int * get_configuracion(Transicion *trans);
+int *get_configuracion_estado(EstadoIntermedio *estado);
 void eliminar_transicion(Transicion *trans);
 EstadoIntermedio *crear_estado(char nombre[MAX_NOMBRE], int estado_posibles, int tipo_estado, int *estados);
 char *get_nombre_estado(EstadoIntermedio *estado);
@@ -29,5 +30,7 @@ void set_transicion(EstadoIntermedio *estado, int pos, Transicion *trans);
 Transicion *get_transicion(EstadoIntermedio *estado, int pos);
 void eliminar_estado(EstadoIntermedio *estado);
 void imprimir_estado(EstadoIntermedio *estado, int estados);
+int *inicializar_configuracion(int num_total_estados, int posicion_inicio);
+void anadir_configuracion(int * conf, int num_total_estados, int posicion);
 
 #endif
