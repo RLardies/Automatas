@@ -11,17 +11,23 @@
 #define MAX_NOMBRE 200
 #define MAX 200
 
-Transicion *crear(int estado_posibles, char operador, char destino[MAX_NOMBRE], int *estado_final);
+typedef struct _EstadoIntermedio EstadoIntermedio;
+typedef struct _Transicion Transicion;
+
+Transicion *crear(int estado_posibles, char *operador, char *destino, int *estado_final);
 char *get_destino(Transicion *trans);
 char *get_operador(Transicion *trans);
+int * get_configuracion(Transicion *trans);
 void eliminar_transicion(Transicion *trans);
-Estado *crear_estado(char nombre[MAX_NOMBRE], int estado_posibles, int tipo_estado, int *estados);
-char *get_nombre_estado(Estado *estado);
-int get_tipo_estado(Estado *estado);
-char *set_nombre_estado(Estado *estado, char nombre[MAX_NOMBRE]);
-void set_tipo_estado(Estado *estado, int tipo_estado);
-void set_transicion(Estado *estado, int pos, Transicion *trans);
-Transicion *get_transicion(Estado *estado, int pos);
-void eliminar_estado(Estado *estado);
+EstadoIntermedio *crear_estado(char nombre[MAX_NOMBRE], int estado_posibles, int tipo_estado, int *estados);
+char *get_nombre_estado(EstadoIntermedio *estado);
+int get_tipo_estado(EstadoIntermedio *estado);
+int get_transiciones_guardadas(EstadoIntermedio *estado);
+void set_nombre_estado(EstadoIntermedio *estado, char nombre[MAX_NOMBRE]);
+void set_tipo_estado(EstadoIntermedio *estado, int tipo_estado);
+void set_transicion(EstadoIntermedio *estado, int pos, Transicion *trans);
+Transicion *get_transicion(EstadoIntermedio *estado, int pos);
+void eliminar_estado(EstadoIntermedio *estado);
+void imprimir_estado(EstadoIntermedio *estado, int estados);
 
 #endif
