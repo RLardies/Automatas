@@ -7,7 +7,7 @@ int main(int argc, char ** argv)
 	AFND * p_afnd;
 	AFND * afd;
 
-	p_afnd = AFNDNuevo("afd_prueba5", 4, 2);
+	p_afnd = AFNDNuevo("afd_prueba3", 4, 2);
 
 	AFNDInsertaSimbolo(p_afnd,"a");
 	AFNDInsertaSimbolo(p_afnd,"b");
@@ -38,6 +38,7 @@ int main(int argc, char ** argv)
 	afd  = AFNDTransforma(p_afnd);
 	AFNDImprime(stdout,afd);
 	AFNDADot(afd);
+	AFNDADot(p_afnd);
 
 	AFNDElimina(afd);
 	AFNDElimina(p_afnd);

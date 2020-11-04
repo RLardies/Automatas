@@ -12,8 +12,8 @@ int main(int argc, char ** argv)
         AFNDInsertaSimbolo(p_afnd,"+");
         AFNDInsertaSimbolo(p_afnd, "0");
         
-        AFNDInsertaEstado(p_afnd, "q0",INICIAL);
-        AFNDInsertaEstado(p_afnd, "q1", NORMAL);
+        AFNDInsertaEstado(p_afnd, "q0", NORMAL);
+        AFNDInsertaEstado(p_afnd, "q1", INICIAL);
         AFNDInsertaEstado(p_afnd, "q2", NORMAL);
         AFNDInsertaEstado(p_afnd, "q3", NORMAL);
         AFNDInsertaEstado(p_afnd, "q4", FINAL);
@@ -37,9 +37,12 @@ int main(int argc, char ** argv)
 
         AFNDImprime(stdout,afd);
         AFNDADot(afd);
+        AFNDADot(p_afnd);
 
-        AFNDElimina(afd);
         AFNDElimina(p_afnd);
+        AFNDElimina(afd);
+       
+       
         
         return 0;
 }
