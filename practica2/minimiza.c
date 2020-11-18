@@ -100,6 +100,6 @@ int ** distinguibles(AFND *afnd) {
 
 }
 
-AFND *AFNDminimiza(AFND *afnd){
+AFND *AFNDMinimiza(AFND *afnd){
     return NULL;
 }

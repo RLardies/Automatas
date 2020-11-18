@@ -8,7 +8,7 @@
 #include "afnd.h"
 #include "intermedia.h"
 
-AFND *AFNDminimiza(AFND *afnd);
+AFND *AFNDMinimiza(AFND *afnd);
 int *accesibles(AFND *afnd);
 int ** distinguibles(AFND *afnd);
 
