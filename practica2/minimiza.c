@@ -72,7 +72,8 @@ int *accesibles(AFND *afnd){
 
 int ** distinguibles(AFND *afnd) {
     int **matriz;
-    int numestados, numsimbolos, i, j, simbolo, estado;
+    int numestados, numsimbolos, i, j, simbolo, estado1, estado2, flag = 0;
+    int destino1, destino2, cambio;
 
     if(!afnd)
         return NULL;
@@ -96,7 +97,35 @@ int ** distinguibles(AFND *afnd) {
                 matriz[j][i] = 1;
             }
         }
-    }  
+    }
+
+    while(cambio){
+        cambio = 0;
+        for (i = 0; i < numestados; i++){
+            for (j = 0; j < i; j++) {
+                if (matriz[i][j] == 0){
+                    for (simbolo = 0; simbolo < numsimbolos; simbolo ++){
+                        for (estado1 = 0; estado1 < numestados; estado1 ++){
+                            if (AFNDTransicionIndicesEstadoiSimboloEstadof(afnd, i, simbolo, estado1) == 1){
+                                destino1 = estado1;
+                            }
+                            if (AFNDTransicionIndicesEstadoiSimboloEstadof(afnd, j, simbolo, estado2) == 1){
+                                destino2 = estado2;
+                            }
+                            
+                        }
+                        if (destino1 != destino2 && matriz[destino1][destino2] == 1){
+                            matriz[i][j] = 1;
+                            matriz[j][i] = 1;
+                            cambio = 1;
+                        }
+                    }
+                }
+            } 
+        }
+    }
+
+    return matriz; 
 
 }
 
