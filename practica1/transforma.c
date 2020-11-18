@@ -132,7 +132,6 @@ AFND* AFNDTransforma(AFND* afnd){
 
 	//Iteramos sobre los estados intermedios, que se iran añadiendo progresivamente
 	for(int j=0; j < num_intermedios; j++){
-		printf("PASO %d\n\n", j);
 
 		if(estados_intermedios[j] == NULL) break;
 
