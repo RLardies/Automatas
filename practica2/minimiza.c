@@ -73,7 +73,8 @@ int *accesibles(AFND *afnd){
 int ** distinguibles(AFND *afnd) {
     int **matriz;
     int numestados, numsimbolos, i, j, simbolo, estado1, estado2, flag = 0;
-    int destino1, destino2, cambio;
+    int destino1, destino2, cambio;  
+    hola bro
 
     if(!afnd)
         return NULL;
