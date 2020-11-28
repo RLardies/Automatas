@@ -130,5 +130,36 @@ int ** distinguibles(AFND *afnd) {
 }
 
 AFND *AFNDMinimiza(AFND *afnd){
+    int * estados_accesibles;
+    int ** estados_distinguibles;
+    AFND * afnd_min;
+    int numestados, numsimbolos, i, j;
+    char * nombre_estado;
+
+    numsimbolos = AFNDNumSimbolos(afnd);
+    numestados = AFNDNumEstados(afnd);
+
+    afnd_min = AFNDNuevo(afnd_min, numestados, numsimbolos);
+
+    estados_accesibles = accesibles(afnd);
+    estados_distinguibles = distinguibles(afnd);
+
+    //obtenemos las clases de equivalencia de la matriz de estados distinguibles que conformaran
+    //un estado en nuestro nuevo autómata
+
+    for (i=0; i < numestados; i++) {
+        if (estados_accesibles[i]== 1){ //entonces es accesible
+            nombre_estado = AFNDNombreEstadoEn(afnd, i);
+            for (j = 0; j < numestados; j++){
+                if (estados_distinguibles[i][j] == 0){ //entonces pertenecen a la misma clase de equivalencia
+                    strcat(nombre_estado, AFNDNombreEstadoEn(afnd, j));
+                    
+                }
+            }
+            
+        }
+    }
+
+
     return NULL;
 }
