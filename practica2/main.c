@@ -43,7 +43,7 @@ int main(int argc, char ** argv)
 	AFNDInsertaTransicion(p_afnd, "q5", "1", "q6");
 	AFNDInsertaTransicion(p_afnd, "q6", "0", "q7");
 	AFNDInsertaTransicion(p_afnd, "q6", "1", "q7");
-        AFNDInsertaTransicion(p_afnd, "q7", "0", "q8");
+    AFNDInsertaTransicion(p_afnd, "q7", "0", "q8");
 	AFNDInsertaTransicion(p_afnd, "q7", "1", "q8");
 	AFNDInsertaTransicion(p_afnd, "q8", "0", "q9");
 	AFNDInsertaTransicion(p_afnd, "q8", "1", "q9");

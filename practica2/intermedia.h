@@ -32,5 +32,6 @@ void eliminar_estado(EstadoIntermedio *estado);
 void imprimir_estado(EstadoIntermedio *estado, int estados);
 int *inicializar_configuracion(int num_total_estados, int posicion_inicio);
 void anadir_configuracion(int * conf, int num_total_estados, int posicion);
+int nuevo_tipo_estado(AFND *afnd, int pos, int anterior);
 
 #endif

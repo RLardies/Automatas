@@ -103,8 +103,6 @@ void eliminar_transicion(Transicion *trans) {
 		printf("No se pudo eliminar, argumento de entrada no válido");
 		return;
 	}
-    
-	free(trans->config_estado_destino);
 	free(trans);
 }
 
@@ -222,7 +220,7 @@ void eliminar_estado(EstadoIntermedio *estado) {
 		eliminar_transicion(estado->transiciones[i]);
 
 	}
-
+	if(estado->config_estado) free(estado->config_estado);
 	free(estado->transiciones);
 	free(estado);
 }
@@ -264,5 +262,40 @@ void imprimir_estado(EstadoIntermedio *estado, int estados) {
 		printf("\n");
 	}
 
+
+}
+
+int nuevo_tipo_estado(AFND *afnd, int pos, int anterior) {
+	if (anterior == INICIAL) {
+		if(AFNDTipoEstadoEn(afnd, pos) == INICIAL || AFNDTipoEstadoEn(afnd, pos) == NORMAL)
+			return INICIAL;
+
+		if(AFNDTipoEstadoEn(afnd, pos) == FINAL || AFNDTipoEstadoEn(afnd, pos) == INICIAL_Y_FINAL)
+			return INICIAL_Y_FINAL;
+	}
+
+	if (anterior == FINAL) {
+		if(AFNDTipoEstadoEn(afnd, pos) == INICIAL || AFNDTipoEstadoEn(afnd, pos) == INICIAL_Y_FINAL)
+			return INICIAL_Y_FINAL;
+
+		if(AFNDTipoEstadoEn(afnd, pos) == FINAL || AFNDTipoEstadoEn(afnd, pos) == NORMAL)
+			return FINAL;
+	}
+
+	if (anterior == INICIAL_Y_FINAL) {
+		return INICIAL_Y_FINAL;
+	}
+
+	if (anterior == NORMAL) {
+		if(AFNDTipoEstadoEn(afnd, pos) == INICIAL)
+			return INICIAL;
+		if(AFNDTipoEstadoEn(afnd, pos) == FINAL)
+			return FINAL;
+		if(AFNDTipoEstadoEn(afnd, pos) == INICIAL_Y_FINAL)
+			return INICIAL_Y_FINAL;
+		
+	}
+
+	return NORMAL;
 
 }
