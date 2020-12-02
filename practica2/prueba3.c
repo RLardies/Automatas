@@ -1,11 +1,3 @@
-/**
- * Autores: Sofia Sanchez y Jesus Daniel Franco
- * Fichero: prueba1.c
- *
- * Contiene las funciones
- *
- */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -19,7 +11,7 @@ int main(int argc, char ** argv)
 	AFND * p_afnd;
 	AFND * afd;
 
-	p_afnd = AFNDNuevo("prueba3", 8, 2);
+	p_afnd = AFNDNuevo("afd_prueba3", 8, 2);
 
 	AFNDInsertaSimbolo(p_afnd,"0");
 	AFNDInsertaSimbolo(p_afnd,"1");
@@ -56,6 +48,7 @@ int main(int argc, char ** argv)
 
 	afd = AFNDMinimiza(p_afnd);
 	AFNDImprime(stdout,afd);
+	AFNDADot(p_afnd);
 	AFNDADot(afd);
 
 	AFNDElimina(p_afnd);

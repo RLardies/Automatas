@@ -9,7 +9,7 @@ int main(int argc, char ** argv)
 	AFND * p_afnd;
 	AFND * p_afnd_min;
 
-	p_afnd = AFNDNuevo("af1",12,2);
+	p_afnd = AFNDNuevo("afd_main",12,2);
 	
 
 	AFNDInsertaSimbolo(p_afnd,"0");
@@ -58,6 +58,7 @@ int main(int argc, char ** argv)
 
 	p_afnd_min = AFNDMinimiza(p_afnd);
 
+	AFNDADot(p_afnd);
 	AFNDADot(p_afnd_min);
 	AFNDImprime(stdout,p_afnd_min);
 
