@@ -107,13 +107,6 @@ int ** distinguibles(AFND *afnd, int * estados_accesibles) {
         }
     }
 
-    for(i=0; i < numestados; i++){
-        for (j = 0; j < numestados; j++){
-            printf("%d ", matriz[i][j]);
-        }
-        printf("\n");
-    }
-
     for (i = 0; i < numestados; i++) {
         if(estados_accesibles[i] == 1){
             if (AFNDTipoEstadoEn(afnd, i) == FINAL || AFNDTipoEstadoEn(afnd, i) == INICIAL_Y_FINAL) {
@@ -178,16 +171,13 @@ AFND *AFNDMinimiza(AFND *afnd){
     estados_accesibles = accesibles(afnd);
     estados_distinguibles = distinguibles(afnd, estados_accesibles);
 
-    for(i = 0; i < numestados; i++){
-        printf("%d ", estados_accesibles[i]);
-    }
-    printf("\n\n");
     estados_intermedios = (EstadoIntermedio**) malloc(sizeof(EstadoIntermedio*)*numestados);
    
 
     //obtenemos las clases de equivalencia de la matriz de estados distinguibles que conformaran
     //un estado en nuestro nuevo autómata
 
+    //Creamos los estados intermedios
     for (i=0; i < numestados; i++) {
         
         if (estados_accesibles[i]== 1){ //entonces es accesible
@@ -235,7 +225,7 @@ AFND *AFNDMinimiza(AFND *afnd){
         }
     }
 
-
+    // Hallamos las transiciones de cada estado intermedio
     for(i=0; i < num_intermedios; i++){
         
         conf = get_configuracion_estado(estados_intermedios[i]);
@@ -284,9 +274,13 @@ AFND *AFNDMinimiza(AFND *afnd){
                         }
                     }
                 }
+                //Basta con observar a que clase va a parar las transiciones de uno de los estados que formar nuestro estado intermedio
+                break;
             }
         }
     }
+
+    //Construimos nuestro automata
 
     afnd_min = AFNDNuevo("AFD_MIN", num_intermedios, numsimbolos);
 	

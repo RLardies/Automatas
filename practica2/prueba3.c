@@ -11,7 +11,7 @@ int main(int argc, char ** argv)
 	AFND * p_afnd;
 	AFND * afd;
 
-	p_afnd = AFNDNuevo("afd_prueba3", 8, 2);
+	p_afnd = AFNDNuevo("afd_prueba3", 7, 2);
 
 	AFNDInsertaSimbolo(p_afnd,"0");
 	AFNDInsertaSimbolo(p_afnd,"1");
@@ -23,27 +23,24 @@ int main(int argc, char ** argv)
 	AFNDInsertaEstado(p_afnd, "D", NORMAL);
 	AFNDInsertaEstado(p_afnd, "E", NORMAL);
 	AFNDInsertaEstado(p_afnd, "F", NORMAL);
-	AFNDInsertaEstado(p_afnd, "G", NORMAL);
-	AFNDInsertaEstado(p_afnd, "H", NORMAL);
+	AFNDInsertaEstado(p_afnd, "G", FINAL);
 
 
 	AFNDInsertaTransicion(p_afnd, "A", "0", "B");
 	AFNDInsertaTransicion(p_afnd, "A", "1", "F");
-	AFNDInsertaTransicion(p_afnd, "B", "0", "G");
-	AFNDInsertaTransicion(p_afnd, "B", "1", "C");
-	AFNDInsertaTransicion(p_afnd, "C", "0", "A");
+	AFNDInsertaTransicion(p_afnd, "B", "0", "C");
+	AFNDInsertaTransicion(p_afnd, "B", "1", "E");
+	AFNDInsertaTransicion(p_afnd, "C", "0", "C");
 	AFNDInsertaTransicion(p_afnd, "C", "1", "C");
-	AFNDInsertaTransicion(p_afnd, "D", "0", "C");
-	AFNDInsertaTransicion(p_afnd, "D", "1", "G");
-	AFNDInsertaTransicion(p_afnd, "E", "0", "H");
-	AFNDInsertaTransicion(p_afnd, "E", "1", "F");
-	AFNDInsertaTransicion(p_afnd, "F", "0", "C");
-	AFNDInsertaTransicion(p_afnd, "F", "1", "G");
+	AFNDInsertaTransicion(p_afnd, "D", "0", "A");
+	AFNDInsertaTransicion(p_afnd, "D", "1", "E");
+	AFNDInsertaTransicion(p_afnd, "E", "0", "E");
+	AFNDInsertaTransicion(p_afnd, "E", "1", "E");
+	AFNDInsertaTransicion(p_afnd, "F", "0", "G");
+	AFNDInsertaTransicion(p_afnd, "F", "1", "E");
 	AFNDInsertaTransicion(p_afnd, "G", "0", "G");
-	AFNDInsertaTransicion(p_afnd, "G", "1", "E");
-	AFNDInsertaTransicion(p_afnd, "H", "0", "G");
-	AFNDInsertaTransicion(p_afnd, "H", "1", "C");
-
+	AFNDInsertaTransicion(p_afnd, "G", "1", "G");
+	
 	AFNDCierraLTransicion(p_afnd);
 
 	afd = AFNDMinimiza(p_afnd);
